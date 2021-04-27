@@ -7,6 +7,8 @@ class Server {
         this.app = express();
         this.port = process.env.PORT;
         this.usuariosPath = '/api/usuarios',
+        this.empresasPath = '/api/empresas',
+        this.direccionesPath = '/api/direcciones'
         this.dbConnection();
             //Middlewares
         this.middlewares();
@@ -22,6 +24,8 @@ class Server {
     routes() {
 
         this.app.use(this.usuariosPath, require('../routes/user'));
+        this.app.use(this.empresasPath, require('../routes/empresas'));
+        this.app.use(this.direccionesPath, require('../routes/direcciones'));
     }
     listen() {
         this.app.listen(this.port, () => {
@@ -30,7 +34,6 @@ class Server {
     }
 
     async dbConnection() {
-
         try{
             await db.authenticate();
             console.log('Database');

@@ -1,8 +1,8 @@
 const {Sequelize} = require('sequelize');
 
-const db = new Sequelize('expedicionestransnatur', 'root', '', {
+const db = new Sequelize('gestionEnvios', 'gestionenvios', '63sT10n3nV105', {
 
-    host: 'localhost',
+    host: '192.168.8.63',
     dialect: 'mariadb',
     port: 3306      
 });
