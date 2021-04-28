@@ -1,10 +1,10 @@
 const { DataTypes } = require('sequelize');
 const db = require('../db/connection');
-const { tableName } = require('./usuario');
 
 const Direccion = db.define('Direccion', {
     idUser: {
-        type: DataTypes.INTEGER
+        type: DataTypes.INTEGER,
+        allowNull: false
     },
     nombreEmpresa: {
         type: DataTypes.STRING,
@@ -20,13 +20,19 @@ const Direccion = db.define('Direccion', {
         type: DataTypes.STRING
     },
     codPais: {
-        type: DataTypes.CHAR
+        type: DataTypes.CHAR(2),
+        validate: {
+            len: [2]
+        }
     },
     telefono: {
         type: DataTypes.STRING
     },
     email: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        validate:{
+            isEmail: true
+        }
     },
     observacion1: {
         type: DataTypes.STRING

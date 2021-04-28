@@ -4,10 +4,7 @@ const db = require('../db/connection')
 const Usuario = db.define('Usuario', {
     username: { 
         type : DataTypes.STRING,
-        allowNull: false,
-        validate: {
-            msg: "Please enter Username"
-        },
+        allowNull: false,        
         unique: true
     },
     password: { 
