@@ -53,7 +53,7 @@ const empresasPut = async (req, res) => {
 
 const empresasArrPut = async (req, res) => {
 
-    const { empresas, idUser } = req.body;    
+    const { empresas, idUser } = req.body;
     if (!empresas || !idUser) {
         console.log("No existen empresas o idUser en el body".yellow);
         res.status(400).json("No existen empresas o idUser en el body");
@@ -66,18 +66,18 @@ const empresasArrPut = async (req, res) => {
             const list = await Empresa.bulkCreate(empresas, { validate: true });
             if (list) {
                 list.forEach(element => {
-                    console.log("Empresa updated con ID: "+element.dataValues.id.toString().green);
+                    console.log("Empresa updated con ID: " + element.dataValues.id.toString().green);
                 })
-                res.json("SUBIDO");                
-            }           
-        }        
+                res.json("SUBIDO");
+            }
+        }
         catch (err) {
-        console.log(err);
-        res.status(400).json({
-            msg: "DataBase problems"
-        })
+            console.log(err);
+            res.status(400).json({
+                msg: "DataBase problems"
+            })
+        }
     }
-}
 }
 const empresaDelete = async (req, res) => {
     const body = req.body;

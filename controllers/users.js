@@ -1,14 +1,11 @@
 const Usuario = require('../models/usuario');
-const Empresa = require('../models/empresa');
-const Direccion = require('../models/direccion');
 require('colors');
 
 const usuariosGet = async (req, res) => {
-    const usuarios = await Usuario.findAll();
-    res.json(usuarios);
+
 }
 
-const usuarioCheck = async (req, res) => {
+const usuarioCheck = async (req, res) => {// Check Usuario => Loggin
     const { username, password } = req.body;
     if (username && password) {
         console.log(username, password);
@@ -44,46 +41,7 @@ const usuarioCheck = async (req, res) => {
     }
 }
 
-const usuarioGet = async (req, res) => {
-    const { id } = req.params;
-    if (id) {
-        try {
-            const usuario = await Usuario.findByPk(id);
-            if (usuario) {
-                const empresas = await Empresa.findAll({ where: { idUser: id } });
-                const direciones = await Direccion.findAll({ where: { idUser: id } });
-                res.json({
-                    user: {
-                        username: usuario.username,
-                        password: usuario.password,
-                        empresas: empresas,
-                        direciones
-                    }
-                })
-            }
-            else {
-                res.json(null);
-            }
-        }
-        catch(err)
-        {
-            console.log(err);
-            res.json("Problemas de DataBase");
-        }
-    }
-    else {
-        console.log("No existe id en el body".yellow);
-        res.json({
-            message: "No existe id en el body"
-        })
-    }
-
-
-}
-const usuariosPost = async (req, res) => {
-
-}
-const usuariosPut = async (req, res) => {
+const usuariosPut = async (req, res) => { // Register Usuario, return Usuario registrado si existe. 
 
     const { username, password } = req.body;
     console.log(username, password);
@@ -114,16 +72,30 @@ const usuariosPut = async (req, res) => {
         });
     }
 }
-const usuariosDelete = (req, res) => {
-    res.json({
-        msg: 'Delete Api - Controller'
-    })
+const usuariosDelete = async (req, res) => {//TODO
+    const body = req.body;
+    const { id } = body;
+    if (!id)
+        console.log("id no existe en el Body");
+    else {
+        try {
+            const user = await Usuario.findOne({ where: { id: id} });
+            await user.destroy();
+            console.log(`Usuario id:${id} Eliminado de la DB`.yellow);
+            res.json("Eliminado");
+
+        }
+        catch (err) {
+            console.log(err);
+            res.status(400).json({
+                msg: "DataBase problems => No se pudo Eliminar"
+            })
+        }
+    }
 }
 module.exports = {
     usuariosGet,
     usuariosDelete,
-    usuariosPost,
     usuariosPut,
-    usuarioGet,
     usuarioCheck
 }
