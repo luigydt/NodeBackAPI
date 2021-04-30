@@ -72,7 +72,7 @@ const direccionPut = async (req, res) => {
     }
 }
 const direccionesGet = async (req, res) => {
-    const { id } = req.body;
+    const { id } = req.params;
     if (id) {
         try {
             const direcciones = await Direccion.findAndCountAll({ where: { idUser: id } });

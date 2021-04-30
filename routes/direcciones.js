@@ -6,7 +6,7 @@ const { direccionesGet,
     direccionUpdate} = require('../controllers/direcciones');
 const routerDirecciones = Router();
 
-routerDirecciones.get('/', direccionesGet);
+routerDirecciones.get('/id', direccionesGet);
 routerDirecciones.put('/listDirecciones', direccionesArrPut);
 routerDirecciones.put('/', direccionPut );
 routerDirecciones.delete('/', direccionDelete);
