@@ -12,6 +12,25 @@ const validarIdUser = (req = request, res = response, next) => {
     }
     next();
 }
+const validarArrayEmpresa = (req = request, res = response, next) => {
+
+    const { empresas } = req.body;
+    if (!empresas) {
+        console.log("No existe Empresas en la petición.".green)
+        return res.status(400).json({
+            msg: "No existe Empresas en la petición"
+        })
+    }
+    if (!Array.isArray(empresas))
+    {    
+        console.log("no array.".green)
+        return res.status(400).json({
+            msg: "Empresa debe ser un Array - 'empresa': [] "
+        })
+    }
+    next();
+}
+
 const validarIDToken = (req = request, res = response, next) => {
     const { id } = req.params;
     const { idCheck } = req;
@@ -61,7 +80,8 @@ module.exports = {
     validarIdUser,
     validarIdEmpresa,
     validarBody,
-    validarIDToken
+    validarIDToken,
+    validarArrayEmpresa
 }
 
 

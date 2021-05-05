@@ -1,17 +1,18 @@
 const { Router } = require('express');
 
-const { validadJWT } = require('../middlewares/validar-jwt');
 const { validarIdUser,
-        validarIDToken,
-        validarBody, 
-        validarIdEmpresa} = require('../middlewares/validar-empresa');
-
+    validarIDToken,
+    validarBody,
+    validarIdEmpresa,
+    validadJWT,
+    validarArrayEmpresa,
+    } = require('../middlewares/index');
 
 const { empresasGet,
-        empresasArrPut,
-        empresasPut,
-        empresaUpdate,
-        empresaDelete } = require('../controllers/empresas');
+    empresasArrPut,
+    empresasPut,
+    empresaUpdate,
+    empresaDelete } = require('../controllers/empresas');
 
 const routerEmpresas = Router();
 
@@ -21,9 +22,9 @@ routerEmpresas.get('/:id', [
     validarIDToken
 ], empresasGet);
 
-routerEmpresas.put('/list/:id', [
-    validadJWT
-
+routerEmpresas.put('/:id/list', [
+    validadJWT,   
+    validarArrayEmpresa
 ], empresasArrPut);
 
 routerEmpresas.put('/:id', [
@@ -42,7 +43,11 @@ routerEmpresas.put('/:id/update', [
 ], empresaUpdate);
 
 routerEmpresas.delete('/:id', [
-    validadJWT
+    validadJWT,
+    validarIdUser,
+    validarIdEmpresa,
+    validarIDToken
+
 ], empresaDelete);
 
 module.exports = routerEmpresas;

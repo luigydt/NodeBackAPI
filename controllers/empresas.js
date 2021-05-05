@@ -44,18 +44,12 @@ const empresasPut = async (req, res) => {
 
 const empresasArrPut = async (req, res) => {
 
-    const { empresas, idUser } = req.body;
-    if (!empresas) {
-        console.log("No existen empresas  en el body".yellow);
-        return res.status(400).json("No existen empresas  en el body");
-    }
-    if (!idUser) {
-        console.log("No existen idUser  en el body".yellow);
-        return res.status(400).json("No existen idUser  en el body");
-    }
+    const { id } = req.params;
+    const { empresas } = req.body;
+
     try {
         empresas.forEach(element => {
-            element.idUser = idUser;
+            element.idUser = id;
         });
         const list = await Empresa.bulkCreate(empresas, { validate: true });
         if (list) {
