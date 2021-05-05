@@ -99,12 +99,16 @@ const direccionesGet = async (req, res) => {
 const direccionUpdate = async (req, res) => {
 
     const body = req.body;
-    const { id, idUser } = body;
-    if (!id || !idUser)
-        console.log("id, idUser no existen en el Body");
+    const { id } = req.params;
+    if (!id) {
+        console.log("id no existen en el Body");
+        return res.status(400).json({
+            msg: "No existe id en el body"
+        })
+    }
     else {
         try {
-            const address = await Direccion.findOne({ where: { id: id, idUser: idUser } });
+            const address = await Direccion.findOne({ where: { id: id } });
             await address.update(body);
             console.log(address);
             res.json("Updated");

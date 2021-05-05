@@ -3,133 +3,123 @@ const Empresa = require('../models/empresa');
 require('colors');
 
 const empresasGet = async (req, res) => {
-    const { id } = req.body;
-    if (id) {
-        try {
-            const empresas = await Empresa.findAndCountAll({ where: { idUser: id } });
-            if (empresas.count !== 0) {
-                console.log(empresas);
-                res.json({ empresas });
-            }
-            else {
-                console.log(`No hay empresas para el id: ${id}`.yellow);
-                res.json({
-                    Message: "No hay empresas para ese id"
-                })
-            }
+
+    const { id } = req.params;
+    try {
+        const empresas = await Empresa.findAndCountAll({ where: { idUser: id } });
+        if (empresas.count != 0) {
+            console.log(empresas);
+            res.json({ empresas });
         }
-        catch (err) {
-            console.log(err);
-            res.json("No se pudo completar la accion");
+        else {
+            console.log(`No hay empresas para el id: ${id}`.yellow);
+            res.json({
+                Message: "No hay empresas para ese ID de Usuario"
+            })
         }
-    } else {
-        console.log("No id en el body".red);
-        res.json("No hay un id en el body");
+    }
+    catch (err) {
+        console.log(err);
+        res.json("DB Fail");
     }
 }
 
 const empresasPut = async (req, res) => {
-
+    const { id } = req.params;
     const { body } = req;
-    console.log(body);
-    const { idUser, codEmpresa, nombreEmpresa } = body;
-    if (!idUser || !codEmpresa || !nombreEmpresa)
-        console.log("No existe algun campo Not Null(idUser,codEmpresa,nombreEmpresa)".yellow);
-    else {
-        try {
-            const empresa = new Empresa(body);
-            await empresa.save();
-            console.log("Subido".green);
-            res.json(empresa);
-        }
-        catch (err) {
-            console.log(err)
-            res.status(500).json({
-                msg: 'Error al subir'
-            })
-        }
+    try {
+        const empresa = new Empresa(body);
+        empresa.idUser = id;
+        await empresa.save();
+        console.log("Subido".green);
+        res.json(empresa);
+    }
+    catch (err) {
+        console.log(err)
+        res.status(500).json({
+            msg: 'Error al subir'
+        })
     }
 }
 
 const empresasArrPut = async (req, res) => {
 
     const { empresas, idUser } = req.body;
-    if (!empresas || !idUser) {
-        console.log("No existen empresas o idUser en el body".yellow);
-        res.status(400).json("No existen empresas o idUser en el body");
+    if (!empresas) {
+        console.log("No existen empresas  en el body".yellow);
+        return res.status(400).json("No existen empresas  en el body");
     }
-    else {
-        try {
-            empresas.forEach(element => {
-                element.idUser = idUser;
-            });
-            const list = await Empresa.bulkCreate(empresas, { validate: true });
-            if (list) {
-                list.forEach(element => {
-                    console.log("Empresa updated con ID: " + element.dataValues.id.toString().green);
-                })
-                res.json("SUBIDO");
-            }
-        }
-        catch (err) {
-            console.log(err);
-            res.status(400).json({
-                msg: "DataBase problems"
+    if (!idUser) {
+        console.log("No existen idUser  en el body".yellow);
+        return res.status(400).json("No existen idUser  en el body");
+    }
+    try {
+        empresas.forEach(element => {
+            element.idUser = idUser;
+        });
+        const list = await Empresa.bulkCreate(empresas, { validate: true });
+        if (list) {
+            list.forEach(element => {
+                console.log("Empresa SUBIDA con ID: " + element.dataValues.id.toString().green);
             })
+            res.json("SUBIDO");
         }
     }
+    catch (err) {
+        console.log(err);
+        res.status(400).json({
+            msg: "DataBase problems"
+        })
+    }
+
 }
 const empresaDelete = async (req, res) => {
-    const body = req.body;
-    const { id, idUser } = body;
-    if (!id || !idUser)
-        console.log("id, idUser no existen en el Body");
-    else {
-        try {
-            const company = await Empresa.findOne({ where: { id: id, idUser: idUser } });
-            await company.destroy();
-            console.log(`Empresa id:${id} y userID: ${idUser} Eliminado de la DB`.yellow);
-            res.json("Eliminado");
-
+    const { id } = req.params;
+    try {
+        const company = await Empresa.findOne({ where: { id: id } });
+        if (company) {
+            // await company.destroy();
+            console.log(company);
+            console.log(`Empresa id:${id} Eliminado de la DB`.yellow);
+            res.json(`Empresa ${company.nombreEmpresa} Eliminada`);
         }
-        catch (err) {
-            console.log(err);
+        else {
+            console.log("No existe Empresa con ese ID".green);
             res.status(400).json({
-                msg: "DataBase problems"
+                msg: "No existe Empresa con ese ID"
             })
         }
+
+
     }
-}
-
-const empresasPost = (req, res) => {
-
+    catch (err) {
+        console.log(err);
+        res.status(402).json({
+            msg: "DataBase problems"
+        })
+    }
 }
 
 const empresaUpdate = async (req, res) => {
 
-    const body = req.body;
-    const { id, idUser } = body;
-    if (!id || !idUser)
-        console.log("id, idUser no existen en el Body");
-    else {
-        try {
-            const company = await Empresa.findOne({ where: { id: id, idUser: idUser } });
-            await company.update(body);
-            console.log(company);
-            res.json("Updated");
-
-        }
-        catch (err) {
-            console.log(err);
-            res.status(400).json({
-                msg: "DataBase problems"
-            })
-        }
+    const { id } = req.params;
+    const { body } = req;
+    try {
+        const company = await Empresa.findOne({ where: { id: id } });
+        await company.update(body);
+        console.log(company);
+        res.json("Updated Empresa: " + `${company.nombreEmpresa}`);
     }
+    catch (err) {
+        console.log(err);
+        res.status(403).json({
+            msg: "DataBase problems"
+        })
+    }
+
 }
 module.exports = {
     empresasGet,
-    empresasPost,
     empresasArrPut,
     empresasPut,
     empresaUpdate,

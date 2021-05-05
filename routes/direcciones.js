@@ -10,6 +10,6 @@ routerDirecciones.get('/id', direccionesGet);
 routerDirecciones.put('/listDirecciones', direccionesArrPut);
 routerDirecciones.put('/', direccionPut );
 routerDirecciones.delete('/', direccionDelete);
-routerDirecciones.put('/update', direccionUpdate);
+routerDirecciones.put('/update/:id', direccionUpdate);
 
 module.exports = routerDirecciones;

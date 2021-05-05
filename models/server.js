@@ -6,10 +6,10 @@ class Server {
     constructor() {
         this.app = express();
         this.port = process.env.PORT;
-        this.usuariosPath = '/api/usuarios';
-        this.empresasPath = '/api/empresas';
+        this.usuariosPath    = '/api/usuarios';
+        this.empresasPath    = '/api/empresas';
         this.direccionesPath = '/api/direcciones';
-        this.etiquetasPath = '/api/etiquetas';
+        this.etiquetasPath   = '/api/etiquetas';
         this.dbConnection();
             //Middlewares
         this.middlewares();
