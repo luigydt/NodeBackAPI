@@ -78,7 +78,7 @@ const empresaDelete = async (req, res) => {
     try {
         const company = await Empresa.findOne({ where: { id: id } });
         if (company) {
-            // await company.destroy();
+            await company.destroy();
             console.log(company);
             console.log(`Empresa id:${id} Eliminado de la DB`.yellow);
             res.json(`Empresa ${company.nombreEmpresa} Eliminada`);
