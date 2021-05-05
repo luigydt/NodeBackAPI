@@ -60,7 +60,8 @@ const validarIdEmpresa = (req = request, res = response, next) => {
 module.exports = {
     validarIdUser,
     validarIdEmpresa,
-    validarBody
+    validarBody,
+    validarIDToken
 }
 
 

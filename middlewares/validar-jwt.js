@@ -20,7 +20,7 @@ const validadJWT = (req = request, res = response, next) => {
         res.status(400).json({
             msg: "Token no valido"
         })
-    }
+    }    
 }
 
 module.exports = {

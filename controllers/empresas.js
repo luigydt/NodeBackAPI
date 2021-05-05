@@ -74,7 +74,7 @@ const empresasArrPut = async (req, res) => {
 
 }
 const empresaDelete = async (req, res) => {
-    const { id } = req.params;
+    const { id } = req.body;
     try {
         const company = await Empresa.findOne({ where: { id: id } });
         if (company) {
@@ -102,7 +102,7 @@ const empresaDelete = async (req, res) => {
 
 const empresaUpdate = async (req, res) => {
 
-    const { id } = req.params;
+    const { id } = req.body;
     const { body } = req;
     try {
         const company = await Empresa.findOne({ where: { id: id } });
