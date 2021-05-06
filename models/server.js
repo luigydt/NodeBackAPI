@@ -31,14 +31,14 @@ class Server {
     }
     listen() {
         this.app.listen(this.port, () => {
-            console.log(this.port)
+            console.log('Server running on Port: '+ this.port.underline.magenta)
         })
     }
 
     async dbConnection() {
-        try{
+        try{            
             await db.authenticate();
-            console.log('Database');
+            console.log('Database Connected'.underline.green);
         }
         catch(error){
             throw new Error(error);

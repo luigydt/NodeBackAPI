@@ -1,11 +1,19 @@
 const {Sequelize} = require('sequelize');
 
-const db = new Sequelize('gestionEnvios', 'gestionenvios', '63sT10n3nV105', {
+    const dataBase = process.env.DB
+    const username = process.env.USERNAME_DB
+    const password = process.env.PASSWORD
+    const host = process.env.HOST
+    const port = process.env.PORT_DB
+    const dialect = process.env.DIALECT
+ 
+const db = new Sequelize(dataBase, username, password, {
 
-    host: '192.168.8.63',
-    dialect: 'mariadb',
-    port: 3306      
+    host,
+    dialect,
+    port,   
 });
+
 
 module.exports = db;
 
