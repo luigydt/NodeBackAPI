@@ -1,5 +1,6 @@
 const { generarJWT } = require('../helpers/generar-jwt');
 const Usuario = require('../models/usuario');
+const Etiqueta = require('../models/etiqueta');
 require('colors');
 
 const usuariosGet = async (req, res) => {
@@ -48,33 +49,31 @@ const usuarioCheck = async (req, res) => {// Check Usuario => Loggin
 const usuariosPut = async (req, res) => { // Register Usuario, return Usuario registrado si existe. 
 
     const { username, password } = req.body;
-    console.log(username, password);
     const user = await Usuario.findOne({ where: { username: username } });
-    console.log({ user })
-    if (!user) {
-
-        const userInsert = await Usuario.build({ username: username, password: password });
-        console.log(userInsert);
-        try {
-            await userInsert.save();
-            console.log("Usuario Insert".green);
-            res.json({
-                msg: `Usuario ${userInsert.username} Registrado`
-            })
-        }
-        catch (err) {
-            res.status(400).json("No se pudo Subir")
-            console.log("No se pudo subir".magenta);
-            console.log(err);
-        }
-
-    }
-    else {
+    if (user) {
         console.log("Usuario ya existe".red);
-        res.json({
-            message: `Usuario ${userInsert.username} Ya existe`
+        return res.json({
+            message: `Usuario ${username} Ya existe`
         });
     }
+    const userInsert = await Usuario.build({ username: username, password: password });
+    try {
+        const pass = await userInsert.save();
+        console.log("Usuario Insert".green);
+        res.json({
+            msg: `Usuario ${userInsert.username} Registrado`
+        })
+        if (pass) {
+            crearEtiqueta(userInsert.id);
+        }
+    }
+    catch (err) {
+        res.status(400).json("No se pudo Subir")
+        console.log("No se pudo subir".magenta);
+        console.log(err);
+    }
+
+
 }
 const usuariosDelete = async (req, res) => {
 
@@ -100,6 +99,14 @@ const usuariosDelete = async (req, res) => {
         })
     }
 
+}
+
+const crearEtiqueta = async (idUser) => {
+
+    const etiqueta = await Etiqueta.build({ idUser: idUser });
+    const c = await Etiqueta.count({ where: { idUser: idUser } });
+    etiqueta.nombreEtiqueta = "ETIQUETA-000" + (c + 1);
+    await etiqueta.save();
 }
 module.exports = {
     usuariosGet,

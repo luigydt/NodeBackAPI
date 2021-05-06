@@ -1,15 +1,28 @@
 const { Router } = require('express');
+
+const {
+    validarIdUser,
+    validadJWT,
+    validarIDToken
+} = require('../middlewares/index')
+
 const { etiquetasGet,
-    etiquetasUpdate,
-    etiquetasDelete,
-    etiquetasInsert } = require('../controllers/etiquetas');
+    etiquetasUpdate
+} = require('../controllers/etiquetas');
+
 const routerEtiquetas = Router();
 
+routerEtiquetas.get('/:id', [
+    validadJWT,
+    validarIdUser,
+    validarIDToken
+], etiquetasGet);
 
-routerEtiquetas.get('/', etiquetasGet);
-routerEtiquetas.put('/', etiquetasInsert);
-routerEtiquetas.put('/update', etiquetasUpdate)
-routerEtiquetas.delete('/', etiquetasDelete);
+routerEtiquetas.post('/:id', [
+    validadJWT,
+    validarIdUser,
+    validarIDToken
+], etiquetasUpdate);
 
 
 module.exports = routerEtiquetas;

@@ -31,18 +31,7 @@ const validarArrayEmpresa = (req = request, res = response, next) => {
     next();
 }
 
-const validarIDToken = (req = request, res = response, next) => {
-    const { id } = req.params;
-    const { idCheck } = req;
-    if (id != idCheck) {
-        console.log("Token no valido - No corresponde a ese Usuario");
-        return res.status(401).json({
-            msg: "Token no valido - No corresponde a ese Usuario"
-        })
-    }
-    console.log("Token valido");
-    next();
-}
+
 
 const validarBody = (req = request, res = response, next) => {
     const { codEmpresa, nombreEmpresa } = req.body;
@@ -79,8 +68,7 @@ const validarIdEmpresa = (req = request, res = response, next) => {
 module.exports = {
     validarIdUser,
     validarIdEmpresa,
-    validarBody,
-    validarIDToken,
+    validarBody,    
     validarArrayEmpresa
 }
 

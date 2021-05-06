@@ -2,15 +2,18 @@
 const { validarIdUser,
     validarIdEmpresa,
     validarBody,
-    validarIDToken,
     validarArrayEmpresa
- } = require('./validar-empresa');
+} = require('./validar-empresa');
 
 const { validarIdUserBody,
     validarUserBody } = require('./validar-userBody');
 
-const { validadJWT } = require('./validar-jwt');
+const { validadJWT,
+    validarIDToken } = require('./validar-jwt');
 
+const { validarArrayDirecciones,
+    validarBodyDirecciones,
+    validarIdDireccion } = require('./validar-direccion');
 module.exports = {
 
     validarIdUser,
@@ -20,5 +23,8 @@ module.exports = {
     validarIdUserBody,
     validarUserBody,
     validadJWT,
-    validarArrayEmpresa
+    validarArrayEmpresa,
+    validarArrayDirecciones,
+    validarBodyDirecciones,
+    validarIdDireccion
 }

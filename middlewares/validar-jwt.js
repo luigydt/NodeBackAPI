@@ -23,6 +23,20 @@ const validadJWT = (req = request, res = response, next) => {
     }    
 }
 
+const validarIDToken = (req = request, res = response, next) => {
+    const { id } = req.params;
+    const { idCheck } = req;
+    if (id != idCheck) {
+        console.log("Token no valido - No corresponde a ese Usuario");
+        return res.status(401).json({
+            msg: "Token no valido - No corresponde a ese Usuario"
+        })
+    }
+    console.log("Token valido");
+    next();
+}
+
 module.exports = {
-    validadJWT
+    validadJWT,
+    validarIDToken
 }

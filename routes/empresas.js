@@ -23,8 +23,10 @@ routerEmpresas.get('/:id', [
 ], empresasGet);
 
 routerEmpresas.put('/:id/list', [
-    validadJWT,   
-    validarArrayEmpresa
+    validadJWT,
+    validarIdUser,
+    validarArrayEmpresa,
+    validarIDToken
 ], empresasArrPut);
 
 routerEmpresas.put('/:id', [

@@ -56,7 +56,7 @@ const empresasArrPut = async (req, res) => {
             list.forEach(element => {
                 console.log("Empresa SUBIDA con ID: " + element.dataValues.id.toString().green);
             })
-            res.json("SUBIDO");
+            res.json("SUBIDOS");
         }
     }
     catch (err) {

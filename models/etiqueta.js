@@ -4,7 +4,7 @@ const db = require('../db/connection');
 const Etiqueta = db.define('Etiqueta', {
     id: {
         type: DataTypes.SMALLINT,
-        primaryKey: true    
+        primaryKey: true
     },
     idUser: {
         type: DataTypes.INTEGER,
@@ -13,11 +13,10 @@ const Etiqueta = db.define('Etiqueta', {
     formato: {
         type: CHAR(5),
         defaultValue: 'EMF',
-        allowNull: false   
     },
     ancho: {
         type: DataTypes.SMALLINT,
-        defaultValue: 104       
+        defaultValue: 104
     },
     alto: {
         type: DataTypes.SMALLINT,
@@ -40,13 +39,28 @@ const Etiqueta = db.define('Etiqueta', {
         defaultValue: 0
     },
     nombreEtiqueta: {
-        type: DataTypes.STRING(100)          
+        type: DataTypes.STRING(100)
     }
 },
     {
         timestamps: false,
-        tableName: 'etiquetas'
-    });
+        tableName: 'etiquetas',
+        getterMethods: {
+            getEtiqueta(){
+                return {
+                    id: this.id,
+                    formato: this.formato,
+                    ancho: this.ancho,
+                    alto: this.alto,
+                    marginIzq: this.marginIzq,
+                    marginDer: this.marginDer,
+                    marginInf: this.marginInf,
+                    marginSup: this.marginSup
+                }
+            }
+        }
+    }
+);
 
 
 module.exports = Etiqueta;
