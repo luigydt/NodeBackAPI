@@ -5,7 +5,7 @@ const direccionesArrPut = async (req, res) => {
     const { direcciones, idUser } = req.body;
     if (!direcciones || !idUser) {
         console.log("No existen direcciones o idUser en el body".yellow);
-        res.status(400).json("No existen direcciones o idUser en el body");
+        return res.status(400).json("No existen direcciones o idUser en el body");
     }
     else {
         try {

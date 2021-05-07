@@ -6,10 +6,11 @@ class Server {
     constructor() {
         this.app = express();
         this.port = process.env.PORT;
-        this.usuariosPath    = '/api/usuarios';
-        this.empresasPath    = '/api/empresas';
-        this.direccionesPath = '/api/direcciones';
-        this.etiquetasPath   = '/api/etiquetas';
+        this.usuariosPath     = '/api/usuarios';
+        this.empresasPath     = '/api/empresas';
+        this.direccionesPath  = '/api/direcciones';
+        this.etiquetasPath    = '/api/etiquetas';
+        this.expedicionesPath = '/api/expediciones'; 
         this.dbConnection();
             //Middlewares
         this.middlewares();
@@ -27,7 +28,8 @@ class Server {
         this.app.use(this.usuariosPath, require('../routes/user'));
         this.app.use(this.empresasPath, require('../routes/empresas'));
         this.app.use(this.direccionesPath, require('../routes/direcciones'));
-        this.app.use(this.etiquetasPath, require('../routes/etiquetas'))
+        this.app.use(this.etiquetasPath, require('../routes/etiquetas'));
+        this.app.use(this.expedicionesPath, require('../routes/expediciones'))
     }
     listen() {
         this.app.listen(this.port, () => {

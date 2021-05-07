@@ -26,6 +26,7 @@ const usuarioCheck = async (req, res) => {// Check Usuario => Loggin
                         token
                     }
                 );
+                console.log(token, fullUser);
             }
             else {
                 console.log("Contrasena mal".yellow);

@@ -43,7 +43,22 @@ const Direccion = db.define('Direccion', {
 },
     {
         timestamps: false,
-        tableName: 'direcciones'
+        tableName: 'direcciones',
+        getterMethods: {
+            getDestinatario(){
+                return {
+                    
+                    destinatario: this.nombreEmpresa,
+                    doreccion: this.direccion,
+                    cp: this.cp,
+                    codPais: this.codPais,
+                    telefono: this.telefono,
+                    email: this.email,
+                    observacion1: this.observacion1,
+                    observacion2: this.observacion2
+                }
+            }
+        }
     });
 
 
