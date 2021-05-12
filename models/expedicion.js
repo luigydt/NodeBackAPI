@@ -63,19 +63,13 @@ const Expedicion = db.define('Expedicion', {
         type: DataTypes.STRING
     },
     codPais: {
-        type: DataTypes.CHAR(2),
-        validate: {
-            len: [2]
-        }
+        type: DataTypes.CHAR(2)       
     },
     telefono: {
         type: DataTypes.STRING
     },
     email: {
-        type: DataTypes.STRING,
-        validate:{
-            isEmail: true
-        }
+        type: DataTypes.STRING        
     },
     observacion1: {
         type: DataTypes.STRING
