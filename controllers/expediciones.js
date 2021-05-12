@@ -24,7 +24,6 @@ const expedicionesGet = async (req = request, res = response) => {
                     ]
                 }
             ]
-
         }
     })
     if (expediciones) {
@@ -81,60 +80,35 @@ const expedicionesPost = async (req = request, res = response) => {
 
 const expedicionesPut = async (req = request, res = response) => {
 
-    const { idEmpresa, list, idDireccion, codEmpresa } = req.query;
+    const { idEmpresa, idDireccion, codEmpresa } = req.query;
     const { id } = req.params;
-    const { expediciones } = req.body;
     const count = await Expedicion.count({
         where: {
             idUser: id,
             idEmpresa: idEmpresa
         }
     })
-    if (!list) {
-        try {
-            const expedicion = new Expedicion(req.body);
-            expedicion.idUser = id;
-            if (idDireccion) {
-                expedicion.idDireccion = idDireccion;
-            }
-            expedicion.idEmpresa = idEmpresa;
-            expedicion.refTransnatur = crearRefTransnatur(codEmpresa, count)
-            console.log(expedicion);
-            await expedicion.save();
-            res.json({
-                msg: 'Expedicion Subida'
-            })
+    try {
+        const expedicion = new Expedicion(req.body);
+        expedicion.idUser = id;
+        if (idDireccion) {
+            expedicion.idDireccion = idDireccion;
         }
-        catch (err) {
-            console.log(err)
-            res.status(400).json({
-                msg: 'Error al Crear'
-            })
-        }
+        expedicion.idEmpresa = idEmpresa;
+        expedicion.refTransnatur = crearRefTransnatur(codEmpresa, count)
+        console.log(expedicion);
+        await expedicion.save();
+        res.json({
+            msg: 'Expedicion Subida'
+        })
     }
-    else {
-        try {
-            expediciones.forEach(element => {
-                element.idUser = id;
-                element.idEmpresa = idEmpresa;
-                expedicion.refTransnatur = crearRefTransnatur(codEmpresa, count);
-                count++;
-            });
-            const listExpediciones = await Expedicion.bulkCreate(expediciones);
-            if (listExpediciones) {
-                listExpediciones.forEach(element => {
-                    console.log("Expediciones Insert con ID: " + element.dataValues.id.toString().green);
-                })
-                res.json("Expediciones Subidas con Exito");
-            }
-        }
-        catch (err) {
-            console.log(err);
-            res.status(400).json({
-                msg: "DataBase insert Fail"
-            })
-        }
+    catch (err) {
+        console.log(err)
+        res.status(400).json({
+            msg: 'Error al Crear'
+        })
     }
+
 }
 const expedicionesDelete = async (req = request, res = response) => {
 
