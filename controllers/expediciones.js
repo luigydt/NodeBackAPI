@@ -8,36 +8,35 @@ const Expedicion = require('../models/expedicion');
 
 
 const expedicionesGet = async (req = request, res = response) => {
-    //TODO expediciones by empresa
-    // const { id } = req.params;
-    // const today = new Date(Date.now());
 
-    // const expediciones = await Expedicion.findAll({
-    //     where: {
-    //         [Op.and]: [
-    //             { idUser: id },
-    //             {
-    //                 [Op.or]: [
-    //                     { fecha: today },
-    //                     { archivado: 0 }
-    //                 ]
-    //             }
-    //         ]
-    //     }
-    // })
-    // if (expediciones) {
-    //     const expReduc = expediciones.map((key) => key.getExpedicion);
-    //     return res.json({
-    //         msg: "EXPEDICION",
-    //         exp: expReduc
-    //     })
-    // }
-    // return res.json({
-    //     msg: "NO EXPEDICION"
-    // })
-    
-    const expediciones = await Expedicion.findOrCreate(req.body);
+    const { id } = req.params;
+    const { idEmpresa } = req.query;
+    const today = new Date(Date.now());
+    const expediciones = await Expedicion.findAll({
+        where: {
+            [Op.and]: [
+                { idUser: id },
+                { idEmpresa: idEmpresa },
+                {
+                    [Op.or]: [
+                        { fecha: today },
+                        { archivado: 0 }
+                    ]
+                }
+            ]
 
+        }
+    })
+    if (expediciones) {
+        const expReduc = expediciones.map((key) => key.getExpedicion);
+        return res.json({
+            msg: "EXPEDICIONES",
+            exp: expReduc
+        })
+    }
+    return res.status(400).json({
+        msg: "NO EXPEDICIONES "
+    })
 }
 const expedicionesPost = async (req = request, res = response) => {
 
@@ -56,7 +55,7 @@ const expedicionesPost = async (req = request, res = response) => {
         }
         catch {
             res.status(402).json({
-                msg: "Hola",
+                msg: "Error Update",
             })
         }
     }
@@ -91,7 +90,6 @@ const expedicionesPut = async (req = request, res = response) => {
             idEmpresa: idEmpresa
         }
     })
-
     if (!list) {
         try {
             const expedicion = new Expedicion(req.body);
