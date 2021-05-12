@@ -25,13 +25,13 @@ const expedicionesGet = async (req = request, res = response) => {
                 }
             ]
         }
-    })
-    if (expediciones) {
-        const expReduc = expediciones.map((key) => key.getExpedicion);
+    });
+    if (expediciones) {        
         return res.json({
             msg: "EXPEDICIONES",
-            exp: expReduc
+            expediciones
         })
+        
     }
     return res.status(400).json({
         msg: "NO EXPEDICIONES "
