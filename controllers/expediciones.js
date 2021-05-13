@@ -120,7 +120,7 @@ const expedicionesDelete = async (req = request, res = response) => {
             await expedicion.update(
                 { archivado: 1 }
             ).then((result) => {
-                console.log('Expedición Archivada: '+ idExpedicion);
+                console.log('Expedición Archivado: '+ idExpedicion);
                 res.json({
                     msg:'Archivado'
                 })
