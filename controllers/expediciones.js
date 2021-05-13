@@ -26,12 +26,12 @@ const expedicionesGet = async (req = request, res = response) => {
             ]
         }
     });
-    if (expediciones) {        
+    if (expediciones) {
         return res.json({
             msg: "EXPEDICIONES",
             expediciones
         })
-        
+
     }
     return res.status(400).json({
         msg: "NO EXPEDICIONES "
@@ -112,23 +112,25 @@ const expedicionesPut = async (req = request, res = response) => {
 }
 const expedicionesDelete = async (req = request, res = response) => {
 
-    const { expediciones } = req.body;
+    const { idExpedicion } = req.query;
     try {
-        expediciones.forEach(async element => {
-            const expedicion = await Expedicion.findByPk(element.id);
-            if (expedicion.retenido != 0) {
-                await expedicion.update(
-                    { archivado: 1 }
-                ).then((result) => {
 
+        const expedicion = await Expedicion.findByPk(idExpedicion);
+        if (expedicion.retenido == 0) {
+            await expedicion.update(
+                { archivado: 1 }
+            ).then((result) => {
+                console.log('Expedición Archivada: '+ idExpedicion);
+                res.json({
+                    msg:'Archivado'
                 })
-            }
-        });
+            })
+        }        
     }
     catch (err) {
         console.log(err);
         res.status(400).json({
-            msg: "DataBase insert Fail"
+            msg: "DB err"
         })
     }
 }
