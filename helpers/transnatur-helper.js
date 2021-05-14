@@ -1,7 +1,6 @@
 
 
  function crearRefTransnatur(idEmpresa, count) {
-
     let tam = 9;
     tam = 9 - count.toString().length;    
     let num = idEmpresa;
@@ -12,6 +11,5 @@
 }
 
 module.exports = {
-
     crearRefTransnatur
 }

@@ -1,10 +1,9 @@
 const { request, response } = require('express');
 
 const validarIdUser = (req = request, res = response, next) => {
-
+    console.log(req.params)
     const { id } = req.params;
     if (!id) {
-
         console.log("No existe ID Usuario en la Peticion.".green)
         return res.status(400).json({
             msg: "No existe un ID Usuario en la petición."

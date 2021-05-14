@@ -14,8 +14,11 @@ const { validadJWT,
 const { validarArrayDirecciones,
     validarBodyDirecciones,
     validarIdDireccion } = require('./validar-direccion');
-module.exports = {
 
+const { validarIdExpedicion,
+    validarQueryExpedicion
+} = require('./validar-expedicion')
+module.exports = {
     validarIdUser,
     validarIdEmpresa,
     validarBody,
@@ -26,5 +29,7 @@ module.exports = {
     validarArrayEmpresa,
     validarArrayDirecciones,
     validarBodyDirecciones,
-    validarIdDireccion
+    validarIdDireccion,
+    validarIdExpedicion,
+    validarQueryExpedicion
 }

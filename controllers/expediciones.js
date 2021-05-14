@@ -38,44 +38,23 @@ const expedicionesGet = async (req = request, res = response) => {
     })
 }
 const expedicionesPost = async (req = request, res = response) => {
-
-    const { expediciones } = req.body;
-    const { list } = req.query;
+    
     const { idExpedicion } = req.query;
-    if (!list) {
-        try {
-            const dir_update = await Expedicion.findByPk(idExpedicion);
-            await dir_update.update(req.body).then((result) => {
-                console.log(result);
-                res.json({
-                    msg: "Updated"
-                })
-            });
-        }
-        catch {
-            res.status(402).json({
-                msg: "Error Update",
+    try {
+        const dir_update = await Expedicion.findByPk(idExpedicion);
+        await dir_update.update(req.body).then((result) => {
+            console.log(result);
+            res.json({
+                msg: "Updated"
             })
-        }
+        });
     }
-    else {
-        try {
-            expediciones.forEach(async element => {
-                const expedicion = await Expedicion.findByPk(element.id);
-                await expedicion.update(element).then((result) => {
-                    console.log(result);
-                })
-            });
-            res.status(200).json({
-                msg: 'Updated'
-            })
-        }
-        catch {
-            res.status(400).json({
-                msg: 'Error al Crear'
-            })
-        }
+    catch {
+        res.status(402).json({
+            msg: "Error Update",
+        })
     }
+
 }
 
 const expedicionesPut = async (req = request, res = response) => {
@@ -108,24 +87,22 @@ const expedicionesPut = async (req = request, res = response) => {
             msg: 'Error al Crear'
         })
     }
-
 }
 const expedicionesDelete = async (req = request, res = response) => {
 
     const { idExpedicion } = req.query;
     try {
-
         const expedicion = await Expedicion.findByPk(idExpedicion);
         if (expedicion.retenido == 0) {
             await expedicion.update(
                 { archivado: 1 }
             ).then((result) => {
-                console.log('Expedición Archivado: '+ idExpedicion);
+                console.log('Expedición Archivado: ' + idExpedicion);
                 res.json({
-                    msg:'Archivado'
+                    msg: 'Archivado'
                 })
             })
-        }        
+        }
     }
     catch (err) {
         console.log(err);

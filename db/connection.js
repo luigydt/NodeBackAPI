@@ -8,7 +8,6 @@ const {Sequelize} = require('sequelize');
     const dialect = process.env.DIALECT
  
 const db = new Sequelize(dataBase, username, password, {
-
     host,
     dialect,
     port,   
